@@ -45,42 +45,42 @@ public class MongoDAO {
 	}
 
 	public  List<Teacher> get() throws MalformedJsonException {
-		List< Teacher> profesores = new ArrayList<Teacher>();
+		List< Teacher> teacheres = new ArrayList<Teacher>();
 		try {
 			Gson gson = new Gson();        
 	    	FindIterable<Document> cursor = collection.find();
 			for (Document doc : cursor) {
-				profesores.add( (Teacher) gson.fromJson(doc.toJson(), Teacher.class));
+				teacheres.add( (Teacher) gson.fromJson(doc.toJson(), Teacher.class));
 				}
 			}
 			catch(MongoException e) {
 				System.out.println("Mongo Fatal error = "+ e.getMessage()); 
 			}
-			return profesores;
+			return teacheres;
 	}
 
 	public  Teacher getById(String id) throws MalformedJsonException {
-		 Teacher profesor = new Teacher();
+		 Teacher teacher = new Teacher();
 		try {
 			Gson gson = new Gson();        
 	    	Document searchById = new Document();
 			searchById.put("_id", new ObjectId(id));
 	    	FindIterable<Document> cursor = collection.find(searchById);
 			for (Document doc : cursor) {
-				profesor = (Teacher) gson.fromJson(doc.toJson(), Teacher.class);
+				teacher = (Teacher) gson.fromJson(doc.toJson(), Teacher.class);
 				}
 			}
 			catch(MongoException e) {
 				System.out.println("Mongo Fatal error = "+ e.getMessage()); 
 			}
-			return profesor;
+			return teacher;
 	}
 
-	public  Boolean insert(Teacher profesor) throws MalformedJsonException {
+	public  Boolean insert(Teacher teacher) throws MalformedJsonException {
 		Gson gson = new Gson(); 
-		Document docProfesor = parse(gson.toJson(profesor));
+		Document docteacher = parse(gson.toJson(teacher));
 		try {
-			collection.insertOne(docProfesor);
+			collection.insertOne(docteacher);
 			}
 			catch(MongoException e) {
 				System.out.println("Mongo Fatal error = "+ e.getMessage()); 
@@ -99,14 +99,14 @@ public class MongoDAO {
 			}
 	}
 
-	public  Boolean update(Teacher profesor) throws MalformedJsonException {
+	public  Boolean update(Teacher teacher) throws MalformedJsonException {
 		Gson gson = new Gson(); 
-		Document docProfesor = parse(gson.toJson(profesor));
+		Document docteacher = parse(gson.toJson(teacher));
 		Document searchById = new Document();
-		searchById.put("_id", new ObjectId(profesor.get_id()));
+		searchById.put("_id", new ObjectId(teacher.get_id()));
     	final UpdateResult updateResult;
  	    try {
- 	    	updateResult = collection.replaceOne(searchById,docProfesor);
+ 	    	updateResult = collection.replaceOne(searchById,docteacher);
 	    }
 		catch(MongoException e) {
 			System.out.println("Mongo Fatal error = "+ e.getMessage()); 
@@ -119,9 +119,9 @@ public class MongoDAO {
 	    }
 	}
 	
-	public  Boolean delete(Teacher profesor) throws MalformedJsonException {
+	public  Boolean delete(Teacher teacher) throws MalformedJsonException {
 		Document searchById = new Document();
-		searchById.put("_id", new ObjectId(profesor.get_id()));
+		searchById.put("_id", new ObjectId(teacher.get_id()));
     	final DeleteResult deleteResult;
 		try {
 	    	deleteResult=collection.deleteOne(searchById);
