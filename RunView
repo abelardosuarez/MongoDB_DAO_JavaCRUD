@@ -1,0 +1,58 @@
+Feb 15, 2020 10:06:21 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500}
+Feb 15, 2020 10:06:21 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Cluster description not yet available. Waiting for 30000 ms before timing out
+Feb 15, 2020 10:06:21 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Opened connection [connectionId{localValue:1, serverValue:257}] to localhost:27017
+Feb 15, 2020 10:06:21 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 6, 3]}, minWireVersion=0, maxWireVersion=6, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=33476535}
+Feb 15, 2020 10:06:22 AM com.mongodb.diagnostics.logging.JULLogger log
+INFO: Opened connection [connectionId{localValue:2, serverValue:258}] to localhost:27017
+(00) MongoDao collection.drop() documents = 3
+(01) for(Teacher teacher : teachers)
+(01) insert new id = collection.insert(teacher) OK Teacher [_id=null, person=Person [ name=Jesus,  dni=21544454]]
+(01) insert new id = collection.insert(teacher) OK Teacher [_id=null, person=Person [ name=Mary,  dni=31254555]]
+(01) insert new id = collection.insert(teacher) OK Teacher [_id=null, person=Person [ name=Joseph,  dni=45667312]]
+(02) collection.printCollection() 
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+(03) teachers = collection.get()
+(03) = Teacher [_id=Id [$oid=5e47b48e4f89bc5f0f9de654], person=Person [ name=Jesus,  dni=21544454]]
+(03) = Teacher [_id=Id [$oid=5e47b48f4f89bc5f0f9de655], person=Person [ name=Mary,  dni=31254555]]
+(03) = Teacher [_id=Id [$oid=5e47b48f4f89bc5f0f9de656], person=Person [ name=Joseph,  dni=45667312]]
+(04) teachers.get(0).setName("Jesus of Nazareth")
+(04) update new name = collection.update(teachers.get(0)) OK Teacher [_id=Id [$oid=5e47b48e4f89bc5f0f9de654], person=Person [ name=Jesus of Nazareth,  dni=21544454]]
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+(05) teachers.get(0).set_id("5e452c764f89bc1f11474636")
+(05) update new id = collection.update(teachers.get(0)) Error Teacher [_id=Id [$oid=5e452c764f89bc1f11474636], person=Person [ name=Jesus of Nazareth,  dni=21544454]]
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+(06) insert new id = collection.insert(teachers.get(0)) OK Teacher [_id=Id [$oid=5e452c764f89bc1f11474636], person=Person [ name=Jesus of Nazareth,  dni=21544454]]
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+{ "_id" : { "$oid" : "5e452c764f89bc1f11474636" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+(07) update without change = collection.update(teachers.get(0)) Error Teacher [_id=Id [$oid=5e452c764f89bc1f11474636], person=Person [ name=Jesus of Nazareth,  dni=21544454]]
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+{ "_id" : { "$oid" : "5e452c764f89bc1f11474636" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+Mongo Fatal error = E11000 duplicate key error collection: faculty.teachers index: _id_ dup key: { : ObjectId('5e452c764f89bc1f11474636') }
+(08) insert old id = collection.insert(teachers.get(0)) Error Teacher [_id=Id [$oid=5e452c764f89bc1f11474636], person=Person [ name=Jesus of Nazareth,  dni=21544454]]
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+{ "_id" : { "$oid" : "5e452c764f89bc1f11474636" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+(09) delete old id = collection.delete(teachers.get(0)) OK Teacher [_id=Id [$oid=5e452c764f89bc1f11474636], person=Person [ name=Jesus of Nazareth,  dni=21544454]]
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+(10) delete new id = collection.delete(teachers.get(0)) Error Teacher [_id=Id [$oid=5e452c764f89bc1f11474636], person=Person [ name=Jesus of Nazareth,  dni=21544454]]
+{ "_id" : { "$oid" : "5e47b48e4f89bc5f0f9de654" }, "person" : { "name" : "Jesus of Nazareth", "dni" : "21544454" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de655" }, "person" : { "name" : "Mary", "dni" : "31254555" } }
+{ "_id" : { "$oid" : "5e47b48f4f89bc5f0f9de656" }, "person" : { "name" : "Joseph", "dni" : "45667312" } }
+(11) collection.getById(5e47b48f4f89bc5f0f9de656)=Teacher [_id=Id [$oid=5e47b48f4f89bc5f0f9de656], person=Person [ name=Joseph,  dni=45667312]]
